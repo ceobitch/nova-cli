@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Nova",
+  "version": "1.0.0",
+  "identifier": "com.onezeros.nova",
+  "build": {
+    "beforeBuildCommand": "",
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "windows": [
+      { "title": "Nova", "width": 960, "height": 640, "decorations": false, "transparent": true }
+    ]
+  },
+  "plugins": {
+    "pty": { }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["dmg", "msi"],
+    "icon": ["icons/icon.icns"],
+    "resources": ["sidecar/nova"]
+  }
+}

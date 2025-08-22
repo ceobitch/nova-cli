@@ -1,0 +1,23 @@
+{
+  "": {
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/master.swiftdeps"
+  },
+  "/Users/ceo/Desktop/nova-cli/NovaApp/ContentView.swift": {
+    "dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/ContentView.d",
+    "object": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/ContentView.swift.o",
+    "swiftmodule": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/ContentView.swiftdeps"
+  },
+  "/Users/ceo/Desktop/nova-cli/NovaApp/NovaApp.swift": {
+    "dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/NovaApp.d",
+    "object": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/NovaApp.swift.o",
+    "swiftmodule": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/NovaApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/NovaApp.swiftdeps"
+  },
+  "/Users/ceo/Desktop/nova-cli/NovaApp/TerminalView.swift": {
+    "dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/TerminalView.d",
+    "object": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/TerminalView.swift.o",
+    "swiftmodule": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/TerminalView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/NovaApp.build/TerminalView.swiftdeps"
+  }
+}

@@ -126,8 +126,14 @@ impl HeaderEmitter {
 
 fn render_header_line(kind: StreamKind) -> ratatui::text::Line<'static> {
     use ratatui::style::Stylize;
+    use ratatui::style::Style;
+    use ratatui::style::Color;
     match kind {
-        StreamKind::Reasoning => ratatui::text::Line::from("thinking".magenta().italic()),
-        StreamKind::Answer => ratatui::text::Line::from("codex".magenta().bold()),
+        StreamKind::Reasoning => ratatui::text::Line::from(
+            "thinking".italic().style(Style::default().fg(Color::Rgb(255,165,140))),
+        ),
+        StreamKind::Answer => ratatui::text::Line::from(
+            "nova".bold().style(Style::default().fg(Color::Rgb(255,165,140))),
+        ),
     }
 }

@@ -1,0 +1,40 @@
+{
+  "name": "nova-macos-app",
+  "version": "1.0.0",
+  "description": "Nova - AI Cybersecurity Companion for macOS",
+  "main": "index.js",
+  "scripts": {
+    "build": "xcodebuild -project NovaApp.xcodeproj -scheme NovaApp -configuration Release build",
+    "clean": "xcodebuild -project NovaApp.xcodeproj -scheme NovaApp clean",
+    "archive": "xcodebuild -project NovaApp.xcodeproj -scheme NovaApp -configuration Release archive -archivePath build/NovaApp.xcarchive",
+    "export": "xcodebuild -exportArchive -archivePath build/NovaApp.xcarchive -exportPath build/export -exportOptionsPlist exportOptions.plist",
+    "install-deps": "brew install create-dmg && brew install --cask xcodes",
+    "setup": "npm run install-deps && swift package resolve",
+    "test": "xcodebuild -project NovaApp.xcodeproj -scheme NovaApp -configuration Debug test"
+  },
+  "keywords": [
+    "macos",
+    "swiftui",
+    "terminal",
+    "cybersecurity",
+    "ai",
+    "nova"
+  ],
+  "author": "Nova Team",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "create-dmg": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nova/nova-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nova/nova-cli/issues"
+  },
+  "homepage": "https://nova.app"
+}
+

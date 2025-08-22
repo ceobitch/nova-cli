@@ -29,13 +29,13 @@ impl SlashCommand {
     pub fn description(self) -> &'static str {
         match self {
             SlashCommand::New => "start a new chat during a conversation",
-            SlashCommand::Init => "create an AGENTS.md file with instructions for Codex",
+            SlashCommand::Init => "create an AGENTS.md file with setup instructions",
             SlashCommand::Compact => "summarize conversation to prevent hitting the context limit",
-            SlashCommand::Quit => "exit Codex",
-            SlashCommand::Diff => "show git diff (including untracked files)",
+            SlashCommand::Quit => "exit",
+            SlashCommand::Diff => "scan for suspicious file changes",
             SlashCommand::Mention => "mention a file",
-            SlashCommand::Status => "show current session configuration and token usage",
-            SlashCommand::Logout => "log out of Codex",
+            SlashCommand::Status => "show system security status and scan results",
+            SlashCommand::Logout => "log out",
             #[cfg(debug_assertions)]
             SlashCommand::TestApproval => "test approval request",
         }

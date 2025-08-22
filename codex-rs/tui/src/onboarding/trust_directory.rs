@@ -48,7 +48,7 @@ impl WidgetRef for &TrustDirectoryWidget {
             Line::from(vec![
                 Span::raw("> "),
                 Span::styled(
-                    "You are running Codex in ",
+                    "You are running NovaShield in ",
                     Style::default().add_modifier(Modifier::BOLD),
                 ),
                 Span::raw(self.cwd.to_string_lossy().to_string()),
@@ -58,7 +58,7 @@ impl WidgetRef for &TrustDirectoryWidget {
 
         if self.is_git_repo {
             lines.push(Line::from(
-                "  Since this folder is version controlled, you may wish to allow Codex",
+                "  Since this folder is version controlled, you may wish to allow NovaShield",
             ));
             lines.push(Line::from(
                 "  to work in this folder without asking for approval.",
@@ -85,7 +85,7 @@ impl WidgetRef for &TrustDirectoryWidget {
             lines.push(create_option(
                 0,
                 TrustDirectorySelection::Trust,
-                "Yes, allow Codex to work in this folder without asking for approval",
+                "Yes, allow NovaShield to work in this folder without asking for approval",
             ));
             lines.push(create_option(
                 1,
@@ -96,7 +96,7 @@ impl WidgetRef for &TrustDirectoryWidget {
             lines.push(create_option(
                 0,
                 TrustDirectorySelection::Trust,
-                "Allow Codex to work in this folder without asking for approval",
+                "Allow NovaShield to work in this folder without asking for approval",
             ));
             lines.push(create_option(
                 1,

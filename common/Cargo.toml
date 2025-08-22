@@ -1,0 +1,9 @@
+[package]
+name = "bug-spray-common"
+version = "1.0.0"
+edition = "2021"
+description = "Bug Spray Common - Shared utilities and types"
+license = "Apache-2.0"
+
+[dependencies]
+codex-common = { path = "../codex-rs/common", features = ["cli"] }

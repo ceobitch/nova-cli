@@ -1,0 +1,55 @@
+[package]
+name = "bug-spray-tui"
+version = "1.0.0"
+edition = "2021"
+description = "Bug Spray TUI - Cybersecurity Terminal Interface"
+license = "Apache-2.0"
+
+[[bin]]
+name = "bug-spray-tui"
+path = "src/main.rs"
+
+[lib]
+name = "bug_spray_tui"
+path = "src/lib.rs"
+
+[dependencies]
+bug-spray-core = { path = "../core" }
+bug-spray-common = { path = "../common" }
+codex-tui = { path = "../codex-rs/tui" }
+codex-core = { path = "../codex-rs/core" }
+codex-login = { path = "../codex-rs/login" }
+codex-ollama = { path = "../codex-rs/ollama" }
+codex-protocol = { path = "../codex-rs/protocol" }
+
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+color-eyre = "0.6"
+crossterm = { version = "0.28", features = ["bracketed-paste"] }
+ratatui = { version = "0.29", features = [
+    "scrolling-regions",
+    "unstable-rendered-line-info", 
+    "unstable-widget-ref",
+] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+tracing-appender = "0.2"
+uuid = { version = "1", features = ["v4"] }
+dirs = "5"
+dotenvy = "0.15"
+supports-color = "3.0"
+once_cell = "1"
+unicode-width = "0.1"
+regex-lite = "0.1"
+textwrap = "0.16"
+rand = "0.9"
+
+# Cross-platform support
+[target.'cfg(unix)'.dependencies]
+signal-hook = "0.3"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["consoleapi"] }

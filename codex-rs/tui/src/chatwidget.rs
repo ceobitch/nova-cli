@@ -34,6 +34,8 @@ use ratatui::layout::Constraint;
 use ratatui::layout::Layout;
 use ratatui::layout::Rect;
 use ratatui::widgets::Widget;
+use ratatui::style::{Style, Color, Modifier};
+use ratatui::text::{Line, Span};
 use ratatui::widgets::WidgetRef;
 use tokio::sync::mpsc::UnboundedSender;
 use tracing::debug;
@@ -96,6 +98,59 @@ struct UserMessage {
 }
 
 use crate::streaming::StreamKind;
+fn sanitize_agent_text(input: &str) -> String {
+    let mut s = input.to_string();
+    // Normalize curly quotes and problematic bytes to ASCII to avoid mojibake in some terminals.
+    s = s
+        .replace('\u{2019}', "'")
+        .replace('\u{2018}', "'")
+        .replace('\u{201C}', "\"")
+        .replace('\u{201D}', "\"")
+        .replace('\u{2014}', "--");
+    let patterns = [
+        "Interacting with the user",
+        "Interacting with user",
+        "Thinking:",
+        "Thought:",
+        "Reasoning:",
+    ];
+    for p in patterns.iter() {
+        s = s.replace(p, "");
+    }
+    // Coalesce spurious single newlines into spaces to avoid word-per-line streams
+    // while preserving paragraph breaks (double newlines) and list/code structure.
+    // Replace occurrences of a single newline not adjacent to another newline.
+    let mut cleaned = String::with_capacity(s.len());
+    let bytes = s.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'\n' {
+            let prev_is_nl = i > 0 && bytes[i - 1] == b'\n';
+            let next_is_nl = i + 1 < bytes.len() && bytes[i + 1] == b'\n';
+            if !prev_is_nl && !next_is_nl {
+                cleaned.push(' ');
+                i += 1;
+                continue;
+            }
+        }
+        cleaned.push(bytes[i] as char);
+        i += 1;
+    }
+    // Trim repeated blank lines
+    let mut out = String::new();
+    let mut prev_blank = false;
+    for line in cleaned.lines() {
+        let is_blank = line.trim().is_empty();
+        if is_blank && prev_blank {
+            continue;
+        }
+        out.push_str(line);
+        out.push('\n');
+        prev_blank = is_blank;
+    }
+    out.trim_end().to_string();
+    out
+}
 
 impl From<String> for UserMessage {
     fn from(text: String) -> Self {
@@ -129,40 +184,37 @@ impl ChatWidget<'_> {
             .set_history_metadata(event.history_log_id, event.history_entry_count);
         self.session_id = Some(event.session_id);
         self.add_to_history(&history_cell::new_session_info(&self.config, event, true));
+        // Removed duplicate splash banner; the ASCII art is shown once via history_cell on first event.
         if let Some(user_message) = self.initial_user_message.take() {
-            self.submit_user_message(user_message);
+            // Inject the initial message (often long system instructions) without
+            // echoing it into the visible chat history.
+            self.submit_user_message_silent_initial(user_message);
         }
         self.mark_needs_redraw();
     }
 
     fn on_agent_message(&mut self, message: String) {
         let sink = AppEventHistorySink(self.app_event_tx.clone());
-        let finished = self.stream.apply_final_answer(&message, &sink);
+        let cleaned = sanitize_agent_text(&message);
+        let finished = self.stream.apply_final_answer(&cleaned, &sink);
         self.last_stream_kind = Some(StreamKind::Answer);
         self.handle_if_stream_finished(finished);
         self.mark_needs_redraw();
     }
 
     fn on_agent_message_delta(&mut self, delta: String) {
-        self.handle_streaming_delta(StreamKind::Answer, delta);
-    }
-
-    fn on_agent_reasoning_delta(&mut self, delta: String) {
-        self.handle_streaming_delta(StreamKind::Reasoning, delta);
-    }
-
-    fn on_agent_reasoning_final(&mut self, text: String) {
+        // Stream deltas for live typing feel while smoothing away single-newline artifacts.
         let sink = AppEventHistorySink(self.app_event_tx.clone());
-        let finished = self.stream.apply_final_reasoning(&text, &sink);
-        self.last_stream_kind = Some(StreamKind::Reasoning);
-        self.handle_if_stream_finished(finished);
-        self.mark_needs_redraw();
+        self.stream.begin(StreamKind::Answer, &sink);
+        self.stream
+            .push_and_maybe_commit(&sanitize_agent_text(&delta), &sink);
     }
 
-    fn on_reasoning_section_break(&mut self) {
-        let sink = AppEventHistorySink(self.app_event_tx.clone());
-        self.stream.insert_reasoning_section_break(&sink);
-    }
+    fn on_agent_reasoning_delta(&mut self, _delta: String) {}
+
+    fn on_agent_reasoning_final(&mut self, _text: String) {}
+
+    fn on_reasoning_section_break(&mut self) {}
 
     // Raw reasoning uses the same flow as summarized reasoning
 
@@ -496,7 +548,7 @@ impl ChatWidget<'_> {
         enhanced_keys_supported: bool,
     ) -> Self {
         let mut rng = rand::rng();
-        let placeholder = EXAMPLE_PROMPTS[rng.random_range(0..EXAMPLE_PROMPTS.len())].to_string();
+        let placeholder = "Type to chat with Nova about security fixes".to_string();
         let codex_op_tx = spawn_agent(config.clone(), app_event_tx.clone(), conversation_manager);
 
         Self {
@@ -600,6 +652,29 @@ impl ChatWidget<'_> {
         if !text.is_empty() {
             self.add_to_history(&history_cell::new_user_prompt(text.clone()));
         }
+    }
+
+    /// Inject an initial user message without adding it to the visible history.
+    /// Used to pass long system instructions invisibly at session start.
+    fn submit_user_message_silent_initial(&mut self, user_message: UserMessage) {
+        let UserMessage { text, image_paths } = user_message;
+        let mut items: Vec<InputItem> = Vec::new();
+
+        if !text.is_empty() {
+            items.push(InputItem::Text { text: text.clone() });
+        }
+        for path in image_paths {
+            items.push(InputItem::LocalImage { path });
+        }
+        if items.is_empty() {
+            return;
+        }
+        // Send to agent without echoing to history or cross-session log.
+        self.codex_op_tx
+            .send(Op::UserInput { items })
+            .unwrap_or_else(|e| {
+                tracing::error!("failed to send initial hidden message: {e}");
+            });
     }
 
     pub(crate) fn handle_codex_event(&mut self, event: Event) {
@@ -765,15 +840,11 @@ impl WidgetRef for &ChatWidget<'_> {
     }
 }
 
-const EXAMPLE_PROMPTS: [&str; 6] = [
-    "Explain this codebase",
-    "Summarize recent commits",
-    "Implement {feature}",
-    "Find and fix a bug in @filename",
-    "Write tests for @filename",
-    "Improve documentation in @filename",
+const CYBERSEC_OPTIONS: [&str; 3] = [
+    "Scan for Malware",
+    "Check System Security",
+    "Something else...",
 ];
-
 fn add_token_usage(current_usage: &TokenUsage, new_usage: &TokenUsage) -> TokenUsage {
     let cached_input_tokens = match (
         current_usage.cached_input_tokens,

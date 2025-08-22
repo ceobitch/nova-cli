@@ -1,0 +1,43 @@
+[package]
+name = "bug-spray-core"
+version = "1.0.0"
+edition = "2021"
+description = "Bug Spray Core - Cybersecurity AI Engine"
+license = "Apache-2.0"
+
+[lib]
+name = "bug_spray_core"
+path = "src/lib.rs"
+
+[dependencies]
+codex-core = { path = "../codex-rs/core" }
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+uuid = { version = "1", features = ["v4"] }
+reqwest = { version = "0.12", features = ["json"] }
+regex = "1"
+md5 = "0.7"
+hex = "0.4"
+dirs = "5"
+toml = "0.8"
+async-openai = "0.25"
+clap = { version = "4", features = ["derive"] }
+
+# Cross-platform dependencies
+[target.'cfg(unix)'.dependencies]
+nix = "0.29"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winuser", "processthreadsapi"] }
+
+# macOS specific
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.9"
+security-framework = "2"
+
+# Linux specific  
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "0.2"

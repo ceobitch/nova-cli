@@ -638,7 +638,7 @@ impl WidgetRef for &ChatComposer {
             }
             ActivePopup::None => {
                 let bottom_line_rect = popup_rect;
-                let key_hint_style = Style::default().fg(Color::Cyan);
+                let key_hint_style = Style::default().fg(Color::Rgb(255,165,0));
                 let mut hint = if self.ctrl_c_quit_hint {
                     vec![
                         Span::from(" "),
@@ -888,7 +888,7 @@ mod tests {
         let (tx, _rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         let needs_redraw = composer.handle_paste("hello".to_string());
         assert!(needs_redraw);
@@ -912,7 +912,7 @@ mod tests {
         let (tx, _rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         let large = "x".repeat(LARGE_PASTE_CHAR_THRESHOLD + 10);
         let needs_redraw = composer.handle_paste(large.clone());
@@ -942,7 +942,7 @@ mod tests {
         let (tx, _rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         composer.handle_paste(large);
         assert_eq!(composer.pending_pastes.len(), 1);
@@ -982,7 +982,7 @@ mod tests {
                 true,
                 sender.clone(),
                 false,
-                "Ask Codex to do anything".to_string(),
+                "Ask Nova to do anything".to_string(),
             );
 
             if let Some(text) = input {
@@ -1022,7 +1022,7 @@ mod tests {
         let (tx, rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         // Type the slash command.
         for ch in [
@@ -1066,7 +1066,7 @@ mod tests {
         let (tx, rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         for ch in ['/', 'm', 'e', 'n', 't', 'i', 'o', 'n'] {
             let _ = composer.handle_key_event(KeyEvent::new(KeyCode::Char(ch), KeyModifiers::NONE));
@@ -1106,7 +1106,7 @@ mod tests {
         let (tx, _rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         // Define test cases: (paste content, is_large)
         let test_cases = [
@@ -1180,7 +1180,7 @@ mod tests {
         let (tx, _rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         // Define test cases: (content, is_large)
         let test_cases = [
@@ -1247,7 +1247,7 @@ mod tests {
         let (tx, _rx) = std::sync::mpsc::channel();
         let sender = AppEventSender::new(tx);
         let mut composer =
-            ChatComposer::new(true, sender, false, "Ask Codex to do anything".to_string());
+            ChatComposer::new(true, sender, false, "Ask Nova to do anything".to_string());
 
         // Define test cases: (cursor_position_from_end, expected_pending_count)
         let test_cases = [

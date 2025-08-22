@@ -154,29 +154,33 @@ pub(crate) fn new_session_info(
             None => config.cwd.display().to_string(),
         };
 
-        let lines: Vec<Line<'static>> = vec![
-            Line::from(vec![
-                Span::raw(">_ ").dim(),
-                Span::styled(
-                    "You are using OpenAI Codex in",
-                    Style::default().add_modifier(Modifier::BOLD),
-                ),
-                Span::raw(format!(" {cwd_str}")).dim(),
-            ]),
-            Line::from("".dim()),
-            Line::from(" To get started, describe a task or try one of these commands:".dim()),
-            Line::from("".dim()),
-            Line::from(format!(" /init - {}", SlashCommand::Init.description()).dim()),
-            Line::from(format!(" /status - {}", SlashCommand::Status.description()).dim()),
-            Line::from(format!(" /diff - {}", SlashCommand::Diff.description()).dim()),
-            Line::from("".dim()),
-        ];
+        let mut lines: Vec<Line<'static>> = Vec::new();
+        // Load ASCII art from root file and render exactly as-is in orange
+        if let Ok(art) = std::fs::read_to_string("ascii-text-art.txt") {
+            for raw_line in art.lines() {
+                lines.push(Line::from(raw_line.to_string()).fg(Color::Rgb(255,165,0)));
+            }
+            lines.push(Line::from(""));
+        }
+        // Add a concise, human welcome under the ASCII art
+        lines.push(Line::from(""));
+        lines.push(Line::from(vec![
+            Span::styled(
+                "Welcome to Nova — your AI security copilot.",
+                Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD),
+            ),
+        ]));
+        lines.push(Line::from("  • Sign in with ChatGPT or use an OpenAI API key"));
+        lines.push(Line::from("  • Press Enter to continue"));
+        lines.push(Line::from(""));
         PlainHistoryCell { lines }
     } else if config.model == model {
         PlainHistoryCell { lines: Vec::new() }
     } else {
         let lines = vec![
-            Line::from("model changed:".magenta().bold()),
+            Line::from(vec![
+                Span::from("model changed:").style(Style::default().fg(Color::Rgb(255,165,140)).add_modifier(Modifier::BOLD)),
+            ]),
             Line::from(format!("requested: {}", config.model)),
             Line::from(format!("used: {model}")),
             Line::from(""),
@@ -187,7 +191,7 @@ pub(crate) fn new_session_info(
 
 pub(crate) fn new_user_prompt(message: String) -> PlainHistoryCell {
     let mut lines: Vec<Line<'static>> = Vec::new();
-    lines.push(Line::from("user".cyan().bold()));
+    lines.push(Line::from("user".red().bold()));
     lines.extend(message.lines().map(|l| Line::from(l.to_string())));
     lines.push(Line::from(""));
 
@@ -243,7 +247,7 @@ fn new_parsed_command(
     let mut lines: Vec<Line> = Vec::new();
     match output {
         None => {
-            let mut spans = vec!["⚙︎ Working".magenta().bold()];
+            let mut spans = vec![Span::from("⚙︎ Working").style(Style::default().fg(Color::Rgb(255,165,140)).add_modifier(Modifier::BOLD))];
             if let Some(st) = start_time {
                 let dur = exec_duration(st);
                 spans.push(format!(" • {dur}").dim());
@@ -324,7 +328,7 @@ fn new_exec_command_generic(
     let command_escaped = strip_bash_lc_and_escape(command);
     let mut cmd_lines = command_escaped.lines();
     if let Some(first) = cmd_lines.next() {
-        let mut spans: Vec<Span> = vec!["⚡ Running".magenta()];
+        let mut spans: Vec<Span> = vec![Span::from("⚡ Running").style(Style::default().fg(Color::Rgb(255,165,140)))];
         if let Some(st) = start_time {
             let dur = exec_duration(st);
             spans.push(format!(" • {dur}").dim());
@@ -333,7 +337,7 @@ fn new_exec_command_generic(
         spans.push(first.to_string().into());
         lines.push(Line::from(spans));
     } else {
-        let mut spans: Vec<Span> = vec!["⚡ Running".magenta()];
+        let mut spans: Vec<Span> = vec![Span::from("⚡ Running").style(Style::default().fg(Color::Rgb(255,165,140)))];
         if let Some(st) = start_time {
             let dur = exec_duration(st);
             spans.push(format!(" • {dur}").dim());
@@ -350,7 +354,10 @@ fn new_exec_command_generic(
 }
 
 pub(crate) fn new_active_mcp_tool_call(invocation: McpInvocation) -> PlainHistoryCell {
-    let title_line = Line::from(vec!["tool".magenta(), " running...".dim()]);
+    let title_line = Line::from(vec![
+        Span::from("tool").style(Style::default().fg(Color::Rgb(255,165,140))),
+        " running...".dim(),
+    ]);
     let lines: Vec<Line> = vec![
         title_line,
         format_mcp_invocation(invocation.clone()),
@@ -471,7 +478,7 @@ pub(crate) fn new_completed_mcp_tool_call(
             lines.push(Line::from(vec![
                 Span::styled(
                     "Error: ",
-                    Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+                    Style::default().fg(Color::Rgb(255,165,0)).add_modifier(Modifier::BOLD),
                 ),
                 Span::raw(e),
             ]));
@@ -483,7 +490,9 @@ pub(crate) fn new_completed_mcp_tool_call(
 
 pub(crate) fn new_diff_output(message: String) -> PlainHistoryCell {
     let mut lines: Vec<Line<'static>> = Vec::new();
-    lines.push(Line::from("/diff".magenta()));
+    lines.push(Line::from(vec![
+        Span::from("/diff").style(Style::default().fg(Color::Rgb(255,165,140))),
+    ]));
 
     if message.trim().is_empty() {
         lines.push(Line::from("No changes detected.".italic()));
@@ -501,7 +510,9 @@ pub(crate) fn new_status_output(
     session_id: &Option<Uuid>,
 ) -> PlainHistoryCell {
     let mut lines: Vec<Line<'static>> = Vec::new();
-    lines.push(Line::from("/status".magenta()));
+    lines.push(Line::from(vec![
+        Span::from("/status").style(Style::default().fg(Color::Rgb(255,165,140))),
+    ]));
 
     let config_entries = create_config_summary_entries(config);
     let lookup = |k: &str| -> String {
@@ -663,7 +674,9 @@ pub(crate) fn new_plan_update(update: UpdatePlanArgs) -> PlainHistoryCell {
     header.push(Span::raw("📋"));
     header.push(Span::styled(
         " Update plan",
-        Style::default().add_modifier(Modifier::BOLD).magenta(),
+        Style::default()
+            .add_modifier(Modifier::BOLD)
+            .fg(Color::Rgb(255,165,140)),
     ));
     header.push(Span::raw(" ["));
     if filled > 0 {
@@ -711,7 +724,7 @@ pub(crate) fn new_plan_update(update: UpdatePlanArgs) -> PlainHistoryCell {
                     Span::styled(
                         step,
                         Style::default()
-                            .fg(Color::Cyan)
+                            .fg(Color::Rgb(255,165,0))
                             .add_modifier(Modifier::BOLD),
                     ),
                 ),
@@ -755,7 +768,10 @@ pub(crate) fn new_patch_event(
             auto_approved: false,
         } => {
             let lines: Vec<Line<'static>> = vec![
-                Line::from("✏️ Applying patch".magenta().bold()),
+                Line::from(
+                    Span::from("✏️ Applying patch")
+                        .style(Style::default().fg(Color::Rgb(255,165,140)).add_modifier(Modifier::BOLD)),
+                ),
                 Line::from(""),
             ];
             return PlainHistoryCell { lines };
@@ -773,7 +789,10 @@ pub(crate) fn new_patch_apply_failure(stderr: String) -> PlainHistoryCell {
     let mut lines: Vec<Line<'static>> = Vec::new();
 
     // Failure title
-    lines.push(Line::from("✘ Failed to apply patch".magenta().bold()));
+    lines.push(Line::from(
+        Span::from("✘ Failed to apply patch")
+            .style(Style::default().fg(Color::Rgb(255,165,140)).add_modifier(Modifier::BOLD)),
+    ));
 
     if !stderr.trim().is_empty() {
         lines.extend(output_lines(
@@ -796,7 +815,10 @@ pub(crate) fn new_patch_apply_success(stdout: String) -> PlainHistoryCell {
     let mut lines: Vec<Line<'static>> = Vec::new();
 
     // Success title
-    lines.push(Line::from("✓ Applied patch".magenta().bold()));
+    lines.push(Line::from(
+        Span::from("✓ Applied patch")
+            .style(Style::default().fg(Color::Rgb(255,165,140)).add_modifier(Modifier::BOLD)),
+    ));
 
     if !stdout.trim().is_empty() {
         let mut iter = stdout.lines();
@@ -913,9 +935,9 @@ fn format_mcp_invocation<'a>(invocation: McpInvocation) -> Line<'a> {
         .unwrap_or_default();
 
     let invocation_spans = vec![
-        Span::styled(invocation.server.clone(), Style::default().fg(Color::Cyan)),
+        Span::styled(invocation.server.clone(), Style::default().fg(Color::Rgb(255,165,0))),
         Span::raw("."),
-        Span::styled(invocation.tool.clone(), Style::default().fg(Color::Cyan)),
+        Span::styled(invocation.tool.clone(), Style::default().fg(Color::Rgb(255,165,0))),
         Span::raw("("),
         Span::styled(args_str, Style::default().add_modifier(Modifier::DIM)),
         Span::raw(")"),

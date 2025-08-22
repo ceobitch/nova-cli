@@ -1,0 +1,32 @@
+[package]
+name = "cybersec-terminal"
+version = "1.0.0"
+edition = "2021"
+description = "AI-powered cybersecurity terminal companion"
+license = "Apache-2.0"
+default-run = "nova"
+
+[[bin]]
+name = "cybersec-terminal"
+path = "src/main.rs"
+
+[[bin]]
+name = "nova"
+path = "src/main.rs"
+
+[dependencies]
+codex-core = { path = "../core" }
+codex-tui = { path = "../tui" }
+codex-common = { path = "../common" }
+tokio = { version = "1", features = ["full"] }
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+crossterm = "0.28"
+ratatui = "0.29"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+dotenvy = "0.15"
+color-eyre = "0.6"
+

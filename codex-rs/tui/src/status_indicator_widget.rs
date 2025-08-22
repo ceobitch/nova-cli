@@ -149,13 +149,13 @@ impl WidgetRef for StatusIndicatorWidget {
         let elapsed = self.start_time.elapsed().as_secs();
         let shown_now = self.current_shown_len(idx);
         let status_prefix: String = self.text.chars().take(shown_now).collect();
-        let animated_spans = shimmer_spans("Working");
+        let animated_spans = shimmer_spans("Typing…");
 
         // Plain rendering: no borders or padding so the live cell is visually indistinguishable from terminal scrollback.
         let inner_width = area.width as usize;
 
         let mut spans: Vec<Span<'static>> = Vec::new();
-        spans.push(Span::styled("▌ ", Style::default().fg(Color::Cyan)));
+        spans.push(Span::styled("▌ ", Style::default().fg(Color::Rgb(255,165,0))));
 
         // Animated header after the left bar
         spans.extend(animated_spans);

@@ -1,0 +1,4 @@
+module SwiftTerm {
+    header "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/SwiftTerm.build/SwiftTerm-Swift.h"
+    requires objc
+}

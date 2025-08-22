@@ -145,7 +145,7 @@ impl UserApprovalWidget<'_> {
             } => {
                 let cmd = strip_bash_lc_and_escape(command);
                 let mut contents: Vec<Line> = to_command_display(
-                    vec!["? ".fg(Color::Cyan), "Codex wants to run ".bold()],
+                    vec!["? ".fg(Color::Rgb(255,165,0)), "NovaShield wants to run ".bold()],
                     cmd,
                     vec![],
                 );
@@ -273,7 +273,7 @@ impl UserApprovalWidget<'_> {
                                 "✔ ".fg(Color::Green),
                                 "You ".into(),
                                 "approved".bold(),
-                                " codex to run ".into(),
+                                " NovaShield to run ".into(),
                             ],
                             cmd,
                             vec![" this time".bold()],
@@ -285,7 +285,7 @@ impl UserApprovalWidget<'_> {
                                 "✔ ".fg(Color::Green),
                                 "You ".into(),
                                 "approved".bold(),
-                                "codex to run ".into(),
+                                " NovaShield to run ".into(),
                             ],
                             cmd,
                             vec![" every time this session".bold()],
@@ -294,10 +294,10 @@ impl UserApprovalWidget<'_> {
                     ReviewDecision::Denied => {
                         lines.extend(to_command_display(
                             vec![
-                                "✗ ".fg(Color::Red),
+                                "✗ ".fg(Color::Rgb(255,165,0)),
                                 "You ".into(),
                                 "did not approve".bold(),
-                                " codex to run ".into(),
+                                " NovaShield to run ".into(),
                             ],
                             cmd,
                             vec![],
@@ -306,7 +306,7 @@ impl UserApprovalWidget<'_> {
                     ReviewDecision::Abort => {
                         lines.extend(to_command_display(
                             vec![
-                                "✗ ".fg(Color::Red),
+                                "✗ ".fg(Color::Rgb(255,165,0)),
                                 "You ".into(),
                                 "canceled".bold(),
                                 " the request to run ".into(),
@@ -370,7 +370,7 @@ impl WidgetRef for &UserApprovalWidget<'_> {
             .enumerate()
             .map(|(idx, opt)| {
                 let style = if idx == self.selected_option {
-                    Style::new().bg(Color::Cyan).fg(Color::Black)
+                    Style::new().bg(Color::Rgb(255,165,0)).fg(Color::Black)
                 } else {
                     Style::new().add_modifier(Modifier::DIM)
                 };
@@ -409,7 +409,7 @@ impl WidgetRef for &UserApprovalWidget<'_> {
 
         Block::bordered()
             .border_type(BorderType::QuadrantOutside)
-            .border_style(Style::default().fg(Color::Cyan))
+            .border_style(Style::default().fg(Color::Rgb(255,165,0)))
             .borders(Borders::LEFT)
             .render_ref(
                 Rect::new(0, response_chunk.y, 1, response_chunk.height),

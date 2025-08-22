@@ -6,6 +6,7 @@ members = [
     "cli",
     "common",
     "core",
+    "cybersec-terminal",
     "exec",
     "execpolicy",
     "file-search",

@@ -1,14 +1,14 @@
 [package]
 edition = "2024"
-name = "codex-cli"
+name = "bug-spray-cli"
 version = { workspace = true }
 
 [[bin]]
-name = "codex"
+name = "bug-spray"
 path = "src/main.rs"
 
 [lib]
-name = "codex_cli"
+name = "bug_spray_cli"
 path = "src/lib.rs"
 
 [lints]

@@ -81,3 +81,23 @@ CHANGELOG.ignore.md
 # nix related
 .direnv
 .envrc
+# Rust
+/target
+**/target/
+
+# Swift/Xcode
+NovaApp/build/
+**/*.xcworkspace/
+**/*.xcuserdatad/
+**/*.xcuserstate
+DerivedData/
+*.dSYM
+Nova*.dmg
+.icon-src.png
+
+# Tauri
+app/src-tauri/target/
+**/src-tauri/target/
+
+# App bundles
+*.app

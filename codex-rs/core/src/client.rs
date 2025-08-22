@@ -201,11 +201,12 @@ impl ModelClient {
                 .header(reqwest::header::ACCEPT, "text/event-stream")
                 .json(&payload);
 
-            if let Some(auth) = auth.as_ref()
-                && auth.mode == AuthMode::ChatGPT
-                && let Some(account_id) = auth.get_account_id()
-            {
-                req_builder = req_builder.header("chatgpt-account-id", account_id);
+            if let Some(auth) = auth.as_ref() {
+                if auth.mode == AuthMode::ChatGPT {
+                    if let Some(account_id) = auth.get_account_id() {
+                        req_builder = req_builder.header("chatgpt-account-id", account_id);
+                    }
+                }
             }
 
             let originator = self
@@ -612,9 +613,8 @@ fn try_parse_retry_after(err: &Error) -> Option<Duration> {
 
     // parse the Please try again in 1.898s format using regex
     let re = rate_limit_regex();
-    if let Some(message) = &err.message
-        && let Some(captures) = re.captures(message)
-    {
+    if let Some(message) = &err.message {
+        if let Some(captures) = re.captures(message) {
         let seconds = captures.get(1);
         let unit = captures.get(2);
 
@@ -627,6 +627,7 @@ fn try_parse_retry_after(err: &Error) -> Option<Duration> {
             } else if unit == "ms" {
                 return Some(Duration::from_millis(value as u64));
             }
+        }
         }
     }
     None

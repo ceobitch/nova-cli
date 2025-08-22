@@ -1819,9 +1819,8 @@ async fn handle_response_item(
                 };
                 sess.tx_event.send(event).await.ok();
             }
-            if sess.show_raw_agent_reasoning
-                && let Some(content) = content
-            {
+            if sess.show_raw_agent_reasoning {
+                if let Some(content) = content {
                 for item in content {
                     let text = match item {
                         ReasoningItemContent::ReasoningText { text } => text,
@@ -1834,6 +1833,7 @@ async fn handle_response_item(
                         }),
                     };
                     sess.tx_event.send(event).await.ok();
+                }
                 }
             }
             None

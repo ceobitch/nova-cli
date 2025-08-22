@@ -258,7 +258,7 @@ impl App<'_> {
                         let running = self.commit_anim_running.clone();
                         thread::spawn(move || {
                             while running.load(Ordering::Relaxed) {
-                                thread::sleep(Duration::from_millis(50));
+                                thread::sleep(Duration::from_millis(120));
                                 tx.send(AppEvent::CommitTick);
                             }
                         });

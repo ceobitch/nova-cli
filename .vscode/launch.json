@@ -7,7 +7,10 @@
       "name": "Cargo launch",
       "cargo": {
         "cwd": "${workspaceFolder}/codex-rs",
-        "args": ["build", "--bin=codex-tui"]
+        "args": [
+          "build",
+          "--bin=codex-tui"
+        ]
       },
       "args": []
     },
@@ -16,7 +19,27 @@
       "request": "attach",
       "name": "Attach to running codex CLI",
       "pid": "${command:pickProcess}",
-      "sourceLanguages": ["rust"]
+      "sourceLanguages": [
+        "rust"
+      ]
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:nova-cli}/NovaApp",
+      "name": "Debug NovaApp (NovaApp)",
+      "program": "${workspaceFolder:nova-cli}/NovaApp/.build/debug/NovaApp",
+      "preLaunchTask": "swift: Build Debug NovaApp (NovaApp)"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:nova-cli}/NovaApp",
+      "name": "Release NovaApp (NovaApp)",
+      "program": "${workspaceFolder:nova-cli}/NovaApp/.build/release/NovaApp",
+      "preLaunchTask": "swift: Build Release NovaApp (NovaApp)"
     }
   ]
 }

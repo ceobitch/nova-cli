@@ -7,10 +7,10 @@
 # Foreground colors
 
 - **Default:** Most of the time, just use the default foreground color. `reset` can help get it back.
-- **User input tips, selection, and status indicators:** Use ANSI `cyan`.
+- **User input tips, selection, and status indicators:** Use ANSI `red` (orange theme).
 - **Success and additions:** Use ANSI `green`.
 - **Errors, failures and deletions:** Use ANSI `red`.
-- **Codex:** Use ANSI `magenta`.
+- Use ANSI `red` (orange/red theme) for branded highlights.
 
 # Avoid
 
@@ -19,3 +19,16 @@
 - Avoid ANSI `blue` and `yellow` because for now the style guide doesn't use them. Prefer a foreground color mentioned above.
 
 (There are some rules to try to catch this in `clippy.toml`.)
+
+# Dark theme palette (for integrated shell)
+
+When rendered inside the Nova macOS shell or Tauri shell, prefer a cohesive dark palette:
+
+- Background: `#0b0f14`
+- Surface: `#11161d`
+- Border subtle: `#1a212b`
+- Primary text: `#e6eef8`
+- Secondary text: `#9fb0c3`
+- Accent: `#6ea8fe`
+
+Prefer Ratatui defaults mapped to these via nearest ANSI where custom colors are unavailable.

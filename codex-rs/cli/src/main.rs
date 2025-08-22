@@ -5,13 +5,13 @@ use clap_complete::generate;
 use codex_arg0::arg0_dispatch_or_else;
 use codex_chatgpt::apply_command::ApplyCommand;
 use codex_chatgpt::apply_command::run_apply_command;
-use codex_cli::LandlockCommand;
-use codex_cli::SeatbeltCommand;
-use codex_cli::login::run_login_status;
-use codex_cli::login::run_login_with_api_key;
-use codex_cli::login::run_login_with_chatgpt;
-use codex_cli::login::run_logout;
-use codex_cli::proto;
+use bug_spray_cli::LandlockCommand;
+use bug_spray_cli::SeatbeltCommand;
+use bug_spray_cli::login::run_login_status;
+use bug_spray_cli::login::run_login_with_api_key;
+use bug_spray_cli::login::run_login_with_chatgpt;
+use bug_spray_cli::login::run_logout;
+use bug_spray_cli::proto;
 use codex_common::CliConfigOverrides;
 use codex_exec::Cli as ExecCli;
 use codex_tui::Cli as TuiCli;
@@ -19,7 +19,7 @@ use std::path::PathBuf;
 
 use crate::proto::ProtoCli;
 
-/// Codex CLI
+/// Bug Spray CLI
 ///
 /// If no subcommand is specified, options will be forwarded to the interactive CLI.
 #[derive(Debug, Parser)]
@@ -46,7 +46,7 @@ struct MultitoolCli {
 
 #[derive(Debug, clap::Subcommand)]
 enum Subcommand {
-    /// Run Codex non-interactively.
+    /// Run Bug Spray non-interactively.
     #[clap(visible_alias = "e")]
     Exec(ExecCli),
 
@@ -56,7 +56,7 @@ enum Subcommand {
     /// Remove stored authentication credentials.
     Logout(LogoutCommand),
 
-    /// Experimental: run Codex as an MCP server.
+    /// Experimental: run Bug Spray as an MCP server.
     Mcp,
 
     /// Run the Protocol stream via stdin/stdout
@@ -190,7 +190,7 @@ async fn cli_main(codex_linux_sandbox_exe: Option<PathBuf>) -> anyhow::Result<()
         Some(Subcommand::Debug(debug_args)) => match debug_args.cmd {
             DebugCommand::Seatbelt(mut seatbelt_cli) => {
                 prepend_config_flags(&mut seatbelt_cli.config_overrides, cli.config_overrides);
-                codex_cli::debug_sandbox::run_command_under_seatbelt(
+                bug_spray_cli::debug_sandbox::run_command_under_seatbelt(
                     seatbelt_cli,
                     codex_linux_sandbox_exe,
                 )
@@ -198,7 +198,7 @@ async fn cli_main(codex_linux_sandbox_exe: Option<PathBuf>) -> anyhow::Result<()
             }
             DebugCommand::Landlock(mut landlock_cli) => {
                 prepend_config_flags(&mut landlock_cli.config_overrides, cli.config_overrides);
-                codex_cli::debug_sandbox::run_command_under_landlock(
+                bug_spray_cli::debug_sandbox::run_command_under_landlock(
                     landlock_cli,
                     codex_linux_sandbox_exe,
                 )

@@ -1,0 +1,29 @@
+{
+  "": {
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/master.swiftdeps"
+  },
+  "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/checkouts/SwiftTerm/Sources/Termcast/AsciicastFormat.swift": {
+    "dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/AsciicastFormat.d",
+    "object": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/AsciicastFormat.swift.o",
+    "swiftmodule": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/AsciicastFormat~partial.swiftmodule",
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/AsciicastFormat.swiftdeps"
+  },
+  "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/checkouts/SwiftTerm/Sources/Termcast/TermcastPlayer.swift": {
+    "dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastPlayer.d",
+    "object": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastPlayer.swift.o",
+    "swiftmodule": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastPlayer~partial.swiftmodule",
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastPlayer.swiftdeps"
+  },
+  "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/checkouts/SwiftTerm/Sources/Termcast/TermcastRecorder.swift": {
+    "dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastRecorder.d",
+    "object": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastRecorder.swift.o",
+    "swiftmodule": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastRecorder~partial.swiftmodule",
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/TermcastRecorder.swiftdeps"
+  },
+  "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/checkouts/SwiftTerm/Sources/Termcast/main.swift": {
+    "dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/main.d",
+    "object": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/main.swift.o",
+    "swiftmodule": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/ceo/Desktop/nova-cli/NovaApp/.build/index-build/arm64-apple-macosx/debug/Termcast.build/main.swiftdeps"
+  }
+}

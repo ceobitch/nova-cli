@@ -81,7 +81,9 @@ impl MarkdownStreamCollector {
         {
             complete_line_count -= 1;
         }
-        if !self.buffer.ends_with('\n') {
+        // Only commit when a paragraph boundary is present to avoid word-per-line jitter.
+        // Treat two consecutive newlines as a boundary; otherwise, defer commit.
+        if !(self.buffer.ends_with("\n\n") || self.buffer.ends_with("\n\r\n") || self.buffer.ends_with("\r\n\r\n")) {
             complete_line_count = complete_line_count.saturating_sub(1);
             // If we're inside an unclosed fenced code block, also drop the
             // last rendered line to avoid committing a partial code line.
