@@ -262,6 +262,7 @@ pub(crate) fn new_session_info(
             Some(_) => "~".to_string(),
             None => config.cwd.display().to_string(),
         };
+<<<<<<< HEAD
 
         let lines: Vec<Line<'static>> = vec![
             Line::from(Span::from("")),
@@ -325,6 +326,40 @@ pub(crate) fn new_session_info(
                 ),
             ]),
         ];
+=======
+        for raw in include_str!("../../../ascii-text-art.txt").lines() {
+            lines.push(Line::from(Span::styled(
+                raw.to_string(),
+                Style::default().fg(accent),
+            )));
+        }
+        lines.push(Line::from(""));
+        // Cybersecurity-focused startup message
+        lines.push(Line::from(
+            " 🛡️  Ready to audit, harden, and secure your systems. What's the threat today?".dim(),
+        ));
+        lines.push(Line::from("".dim()));
+        lines.push(Line::from(" 🔍 Security Examples:".dim()));
+        lines.push(Line::from("   \"scan this directory for malware\"".dim()));
+        lines.push(Line::from("   \"audit my SSH configuration\"".dim()));
+        lines.push(Line::from("   \"check for suspicious network connections\"".dim()));
+        lines.push(Line::from("   \"harden this web server setup\"".dim()));
+        lines.push(Line::from("".dim()));
+        lines.push(Line::from(" ⚡ Quick Commands:".dim()));
+        lines.push(Line::from(
+            format!("   /init - {}", SlashCommand::Init.description()).dim(),
+        ));
+        lines.push(Line::from(
+            format!("   /status - {}", SlashCommand::Status.description()).dim(),
+        ));
+        lines.push(Line::from(
+            format!("   /approvals - {}", SlashCommand::Approvals.description()).dim(),
+        ));
+        lines.push(Line::from(
+            format!("   /model - {}", SlashCommand::Model.description()).dim(),
+        ));
+        lines.push(Line::from("".dim()));
+>>>>>>> 2523d697 (chanhes)
         PlainHistoryCell { lines }
     } else if config.model == model {
         PlainHistoryCell { lines: Vec::new() }

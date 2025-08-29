@@ -370,9 +370,13 @@ impl ModelClient {
         self.summary
     }
 
+<<<<<<< HEAD
     pub fn get_auth_manager(&self) -> Option<Arc<AuthManager>> {
         self.auth_manager.clone()
     }
+=======
+
+>>>>>>> 2523d697 (chanhes)
 }
 
 #[derive(Debug, Deserialize, Serialize)]

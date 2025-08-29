@@ -39,7 +39,16 @@ pub(crate) async fn stream_chat_completions(
     let mut messages = Vec::<serde_json::Value>::new();
 
     let full_instructions = prompt.get_full_instructions(model_family);
+<<<<<<< HEAD
     messages.push(json!({"role": "system", "content": full_instructions}));
+=======
+    
+    // For ChatGPT auth, don't add system message - use instructions field instead
+    let auth_mode = auth.as_ref().map(|a| a.mode);
+    if !matches!(auth_mode, Some(codex_login::AuthMode::ChatGPT)) {
+        messages.push(json!({"role": "system", "content": full_instructions}));
+    }
+>>>>>>> 2523d697 (chanhes)
 
     let input = prompt.get_formatted_input();
 
@@ -139,12 +148,26 @@ pub(crate) async fn stream_chat_completions(
     }
 
     let tools_json = create_tools_json_for_chat_completions_api(&prompt.tools)?;
+<<<<<<< HEAD
     let payload = json!({
+=======
+    
+    // For ChatGPT auth, use hybrid format with instructions field only
+    let mut payload = json!({
+>>>>>>> 2523d697 (chanhes)
         "model": model_family.slug,
         "messages": messages,
         "stream": true,
         "tools": tools_json,
     });
+<<<<<<< HEAD
+=======
+    
+    if matches!(auth_mode, Some(codex_login::AuthMode::ChatGPT)) {
+        payload["store"] = json!(false);
+        payload["instructions"] = json!(full_instructions);
+    }
+>>>>>>> 2523d697 (chanhes)
 
     debug!(
         "POST to {}: {}",
