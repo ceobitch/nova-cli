@@ -1,9 +1,11 @@
 {
-  "name": "@openai/codex",
-  "version": "0.0.0-dev",
+  "name": "nova-cli",
+  "version": "0.1.0",
   "license": "Apache-2.0",
   "bin": {
-    "codex": "bin/codex.js"
+    "nova": "bin/nova.js",
+    "nova-cli": "bin/nova.js",
+    "novacli": "bin/nova.js"
   },
   "type": "module",
   "engines": {
@@ -15,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openai/codex.git"
+    "url": "git+https://github.com/ceobitch/nova-cli.git"
   },
   "dependencies": {
     "@vscode/ripgrep": "^1.15.14"
