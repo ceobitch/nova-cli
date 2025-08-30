@@ -498,7 +498,7 @@ mod tests {
             frame_requester: crate::tui::FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask Nova to secure your system".to_string(),
             disable_paste_burst: false,
         });
         pane.push_approval_request(exec_request());
@@ -518,7 +518,7 @@ mod tests {
             frame_requester: crate::tui::FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask Nova to secure your system".to_string(),
             disable_paste_burst: false,
         });
 
@@ -549,7 +549,7 @@ mod tests {
             frame_requester: crate::tui::FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask Nova to secure your system".to_string(),
             disable_paste_burst: false,
         });
 
@@ -715,7 +715,7 @@ mod tests {
             row0.push(buf2[(x, 0)].symbol().chars().next().unwrap_or(' '));
             row1.push(buf2[(x, 1)].symbol().chars().next().unwrap_or(' '));
         }
-        let has_composer = row0.contains("Ask Codex") || row1.contains("Ask Codex");
+        let has_composer = row0.contains("Ask Nova") || row1.contains("Ask Nova");
         assert!(
             has_composer,
             "expected composer to be visible on one of the rows: row0={row0:?}, row1={row1:?}"
@@ -734,7 +734,7 @@ mod tests {
             only.push(buf1[(x, 0)].symbol().chars().next().unwrap_or(' '));
         }
         assert!(
-            only.contains("Ask Codex"),
+            only.contains("Ask Nova"),
             "expected composer with no padding: {only:?}"
         );
     }

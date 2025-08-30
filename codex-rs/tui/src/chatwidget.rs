@@ -1105,11 +1105,7 @@ impl ChatWidget {
 
         self.bottom_pane.show_selection_view(
             "Select model and reasoning level".to_string(),
-<<<<<<< HEAD
-            Some("Switch between OpenAI models for this and future Codex CLI session".to_string()),
-=======
             Some("Switch between OpenAI models for this and future Nova Shield session".to_string()),
->>>>>>> 2523d697 (chanhes)
             Some("Press Enter to confirm or Esc to go back".to_string()),
             items,
         );
