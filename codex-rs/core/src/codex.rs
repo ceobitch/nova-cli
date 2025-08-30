@@ -504,14 +504,6 @@ impl Session {
 
         // Now that `session_id` is final (may have been updated by resume),
         // construct the model client.
-<<<<<<< HEAD
-=======
-        // Create AuthManager from auth for proper token refresh handling
-        let auth_manager = auth.as_ref().map(|a| {
-            codex_login::AuthManager::from_auth_for_testing(a.clone())
-        });
-        
->>>>>>> 2523d697 (chanhes)
         let client = ModelClient::new(
             config.clone(),
             Some(auth_manager.clone()),
@@ -1106,12 +1098,6 @@ async fn submission_loop(
                     updated_config.model_context_window = Some(model_info.context_window);
                 }
 
-<<<<<<< HEAD
-=======
-                let auth_manager = auth.as_ref().map(|a| {
-                    codex_login::AuthManager::from_auth_for_testing(a.clone())
-                });
->>>>>>> 2523d697 (chanhes)
                 let client = ModelClient::new(
                     Arc::new(updated_config),
                     auth_manager,

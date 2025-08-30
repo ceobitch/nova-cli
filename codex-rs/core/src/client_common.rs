@@ -111,7 +111,6 @@ pub(crate) struct TextControls {
     pub(crate) verbosity: Option<OpenAiVerbosity>,
 }
 
-<<<<<<< HEAD
 #[derive(Debug, Serialize, Default, Clone, Copy)]
 #[serde(rename_all = "lowercase")]
 pub(crate) enum OpenAiVerbosity {
@@ -129,14 +128,6 @@ impl From<VerbosityConfig> for OpenAiVerbosity {
             VerbosityConfig::High => OpenAiVerbosity::High,
         }
     }
-=======
-pub(crate) fn create_text_param_for_request(
-    verbosity: Option<String>,
-) -> Option<TextControls> {
-    verbosity.map(|v| TextControls {
-        verbosity: Some(v),
-    })
->>>>>>> 2523d697 (chanhes)
 }
 
 /// Request object that is serialized as JSON and POST'ed when using the
